@@ -4,6 +4,7 @@ import os
 
 
 class ParserXML(ABC):
+
 	def __init__(self, osmFile, events=('start', 'end')):
 		if osmFile.split('.')[-1].lower() != 'osm':
 			raise ValueError('Error in OSM file')
@@ -36,6 +37,7 @@ class ParserXML(ABC):
 
 
 class DataFramerXML(ParserXML):
+
 	def __init__(self, osmFile, tags, **kwargs):
 		super(self.__class__, self).__init__(osmFile=osmFile)
 		self._parseData = ""
