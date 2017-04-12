@@ -30,7 +30,7 @@ class ParserXML(ABC):
 				self.root.clear()
 
 	@abstractmethod
-	def export_dataset(fraction):
+	def export_dataset(default_path):
 		pass
 
 
