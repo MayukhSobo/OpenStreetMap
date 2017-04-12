@@ -79,7 +79,7 @@ class DataFramerXML(ParserXML):
 
 def main():
 	tags = ('node', 'way', 'relation')
-	files = {'data10000.osm': 10000, 'data1000.osm': 1000}
+	files = {'data10.osm': 10}
 	raw_data = os.path.join(RES, 'gurugram.osm')
 	p = DataFramerXML(raw_data, tags=tags, files=files)
 	p.export_dataset()

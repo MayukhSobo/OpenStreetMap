@@ -1,3 +1,4 @@
 .DS*
 *.osm
 venv/
+__py*
