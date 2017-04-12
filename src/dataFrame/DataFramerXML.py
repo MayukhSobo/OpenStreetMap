@@ -1,6 +1,8 @@
 import xml.etree.cElementTree as ET
 from abc import ABC, abstractmethod
 import os
+ROOT = '../../'
+RES = os.path.join(ROOT, 'res')
 
 
 class ParserXML(ABC):
@@ -13,15 +15,11 @@ class ParserXML(ABC):
 		self._check_root()
 
 	@property
-	def root(self):
-		_, root = next(self._context)
-		return root
-
-	@property
 	def context(self):
 		return self._context
 
 	def _check_root(self):
+		_, self.root = next(self._context)
 		if self.root.tag.lower() != 'osm':
 			raise ValueError('OpenStreetDataMap Error')
 
@@ -40,9 +38,8 @@ class DataFramerXML(ParserXML):
 
 	def __init__(self, osmFile, tags, **kwargs):
 		super(self.__class__, self).__init__(osmFile=osmFile)
-		self._parseData = ""
 		self.tags = tags
-		self.exportFiles = kwargs.get('files')
+		self.export_files = kwargs.get('files')
 		self.export = kwargs.get('export')
 		self.tagValidation = kwargs.get('tagValidation', False)
 		self.rootPath = kwargs.get('root', '.')
@@ -51,8 +48,8 @@ class DataFramerXML(ParserXML):
 	def _validate(self):
 		if not self.export:
 			pass
-		elif self.export is None and self.exportFiles is not None or self.export is not None and self.exportFiles is None:
-			raise ValueError('Export value and exportFiles doesn\'t match')
+		elif self.export is None and self.export_files is not None or self.export is not None and self.export_files is None:
+			raise ValueError('Export value and export_files doesn\'t match')
 
 		if self.tagValidation:
 			allTags = set()
@@ -64,24 +61,28 @@ class DataFramerXML(ParserXML):
 				if each not in allTags:
 					raise ValueError('Given tags are not present in XML')
 
-	@property
-	def data(self):
-		self.export_dataset()
-		return self._parseData
-
-	def export_dataset(self):
+	def export_dataset(self, default_path=RES):
 		if not os.path.exists(self.rootPath):
 			raise IOError('The path doesn\'t exist.')
-		for exportFile, factor in self.exportFiles.items():
-			if exportFile.split('.')[-1] != 'osm':
+		for export_file, factor in self.export_files.items():
+			if export_file.split('.')[-1] != 'osm':
 				raise ValueError('Export files must OSM type')
-			print(exportFile, factor)
+			with open(os.path.join(default_path, export_file), 'wb') as output:
+				output.write(b'<?xml version="1.0" encoding="UTF-8"?>\n')
+				output.write(b'<osm>\n  ')
+				for i, element in enumerate(self._get_element(self.tags)):
+					if i % factor == 0:
+						output.write(ET.tostring(element, encoding='utf-8'))
+				output.write(b'</osm>')
+				self._context = iter(ET.iterparse(self.source, events=('start', 'end')))
 
 
 def main():
-	p = DataFramerXML('../../gurugram.osm', tags=('node', 'way', 'relation'), files={'test.osm': 10})
-	# p.parse(factor=10000)
-	p.data
+	tags = ('node', 'way', 'relation')
+	files = {'data10000.osm': 10000, 'data1000.osm': 1000}
+	raw_data = os.path.join(RES, 'gurugram.osm')
+	p = DataFramerXML(raw_data, tags=tags, files=files)
+	p.export_dataset()
 
 
 if __name__ == '__main__':
