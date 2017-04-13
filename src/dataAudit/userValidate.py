@@ -11,7 +11,7 @@ def validate_user(what, which, files):
 		users_as_name = defaultdict(set)
 		users_as_id = defaultdict(set)
 		for event, elem in context:
-			if elem.tag == 'node':
+			if event == 'end' and elem.tag == 'node':
 				users_as_name[elem.get('user')].add(elem.get('uid'))
 				users_as_id[elem.get('uid')].add(elem.get('user'))
 

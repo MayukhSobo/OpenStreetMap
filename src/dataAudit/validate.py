@@ -1,4 +1,5 @@
 from userValidate import validate_user
+from locValidate import validate_location
 
 
 class Validate(object):
@@ -14,17 +15,21 @@ class Validate(object):
 		self._validate()
 
 	def _validate(self):
-		# print(self.validators)
 		for each in self.validators:
 			what = [*each.keys()][0]
 			which = [*each.values()][0]
+
+			# --------- USER validation --------- #
 			if what == 'user':
-				# print(what, self.files)
 				validate_user(what, which, self.files)
+			# ------------------------------------ #
+
+			if what == 'location':
+				validate_location(what, which, self.files)
 
 
 def main():
-	Validate(files=['data10000.osm'], user='uid', location=['lat', 'lon'])
+	Validate(files=['data10000.osm'], location=['lat', 'lon'])
 
 
 if __name__ == '__main__':
