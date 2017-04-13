@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ ! -d "res" ]; then
+    mkdir res
+fi
+
+
 if [ -d "raw_data" ]; then
 	# unpack the osm compressed file
 	FILE_PATH=raw_data/*

@@ -17,6 +17,9 @@ def validate_location(what, which, files):
 				except ValueError:
 					raise ValueError('Fomatting Error in lat or lon')
 
-				if float(lat) == int(lat) and float(lon) == int(lon):
-					raise ValueError('Location value can not be in integer')
+				try:
+					if float(lat) == int(lat) or float(lon) == int(lon):
+						raise AttributeError('Location value can not be in integer')
+				except ValueError:
+					pass
 		print(colored("[PASSED✓]", "green", attrs=['bold']) + " Location validation audit")

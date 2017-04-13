@@ -1,6 +1,7 @@
 import xml.etree.cElementTree as ET
 from abc import ABC, abstractmethod
 import os
+from termcolor import colored
 ROOT = '../../'
 RES = os.path.join(ROOT, 'res')
 
@@ -75,11 +76,12 @@ class DataFramerXML(ParserXML):
 						output.write(ET.tostring(element, encoding='utf-8'))
 				output.write(b'</osm>')
 				self._context = iter(ET.iterparse(self.source, events=('start', 'end')))
+				print(colored("[PASSED✓]", "green", attrs=['bold']) + " Created {} successfully".format(export_file))
 
 
 def main():
 	tags = ('node', 'way', 'relation')
-	files = {'data10.osm': 10}
+	files = {'data10.osm': 10, 'data100.osm': 100, 'data1000.osm': 1000, 'data10000.osm': 10000}
 	raw_data = os.path.join(RES, 'gurugram.osm')
 	p = DataFramerXML(raw_data, tags=tags, files=files)
 	p.export_dataset()
