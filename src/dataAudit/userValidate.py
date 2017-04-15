@@ -4,7 +4,7 @@ from collections import defaultdict
 from termcolor import colored
 
 
-def validate_user(what, which, files):
+def validate_user(what, which, files, mapToOrig):
 	for each in files:
 		context = iter(ET.iterparse(os.path.join('..', '..', 'res', each),
 												events=('start', 'end')))

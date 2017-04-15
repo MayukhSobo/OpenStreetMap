@@ -3,7 +3,7 @@ from termcolor import colored
 import os
 
 
-def validate_location(what, which, files):
+def validate_location(what, which, files, mapToOrig):
 	for each in files:
 		context = iter(ET.iterparse(os.path.join('..', '..', 'res', each),
 												events=('start', 'end')))
