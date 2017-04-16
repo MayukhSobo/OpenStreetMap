@@ -54,7 +54,9 @@ def _verify_node_attribs(mapToOrig, files):
 		return True
 
 
-def verify(what, node_data, mapToOrig, files):
+def verify(what, node_data, mapToOrig, files=None):
+	if what not in ['node', 'way']:
+		return False
 	if what == 'node':
 		# This is because all node tags must have one child named 'tag'
 		if len(list(node_data)) != 1 or list(node_data)[0] != 'tag':
@@ -62,3 +64,5 @@ def verify(what, node_data, mapToOrig, files):
 		if not _verify_node_attribs(mapToOrig, files):
 			raise AttributeError("Some node attributes are missing")
 		print(colored("[PASSED✓]", "green", attrs=['bold']) + " Node verification completed successfully")
+
+	return True
