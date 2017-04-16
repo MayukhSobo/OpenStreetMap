@@ -2,11 +2,13 @@ import xml.etree.cElementTree as ET
 import os
 from collections import defaultdict
 from termcolor import colored
+import inspect
+PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 
 def validate_user(what, which, files, mapToOrig):
 	for each in files:
-		context = iter(ET.iterparse(os.path.join('..', '..', 'res', each),
+		context = iter(ET.iterparse(os.path.join(PWD, '..', '..', 'res', each),
 												events=('start', 'end')))
 		users_as_name = defaultdict(set)
 		users_as_id = defaultdict(set)

@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ -d "res" ]; then
+    rm -rf res
+fi
+
 if [ ! -d "res" ]; then
     mkdir res
 fi
@@ -21,3 +25,5 @@ if [ -d "raw_data" ]; then
 		IFS=""
 	done
 fi
+
+python "src/main.py" "gurugram.osm" 

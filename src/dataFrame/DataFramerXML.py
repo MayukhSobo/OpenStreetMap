@@ -2,7 +2,9 @@ import xml.etree.cElementTree as ET
 from abc import ABC, abstractmethod
 import os
 from termcolor import colored
-ROOT = '../../'
+import inspect
+PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+ROOT = os.path.join(PWD, '..', '..')
 RES = os.path.join(ROOT, 'res')
 
 
@@ -11,7 +13,7 @@ class ParserXML(ABC):
 	def __init__(self, osmFile, events=('start', 'end')):
 		if osmFile.split('.')[-1].lower() != 'osm':
 			raise ValueError('Error in OSM file')
-		self.source = osmFile
+		self.source = os.path.join(RES, osmFile)
 		self._context = iter(ET.iterparse(self.source, events=events))
 		self._check_root()
 
@@ -79,13 +81,13 @@ class DataFramerXML(ParserXML):
 				print(colored("[PASSED✓]", "green", attrs=['bold']) + " Created {} successfully".format(export_file))
 
 
-def main():
-	tags = ('node', 'way', 'relation')
-	files = {'data10.osm': 10, 'data100.osm': 100, 'data1000.osm': 1000, 'data10000.osm': 10000}
-	raw_data = os.path.join(RES, 'gurugram.osm')
-	p = DataFramerXML(raw_data, tags=tags, files=files)
-	p.export_dataset()
+# def main():
+# 	tags = ('node', 'way', 'relation')
+# 	files = {'data10.osm': 10, 'data100.osm': 100, 'data1000.osm': 1000, 'data10000.osm': 10000}
+# 	raw_data = os.path.join(RES, 'gurugram.osm')
+# 	p = DataFramerXML(raw_data, tags=tags, files=files)
+# 	p.export_dataset()
 
 
-if __name__ == '__main__':
-	main()
+# if __name__ == '__main__':
+# 	main()

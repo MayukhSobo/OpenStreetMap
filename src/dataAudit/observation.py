@@ -1,12 +1,14 @@
 import xml.etree.cElementTree as ET
 from termcolor import colored
 import os
+import inspect
+PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 
-def observe(what, which, files, mapToOrig):
+def observe(what, files, mapToOrig):
 	for each in files:
 		nested_tags = set()
-		context = iter(ET.iterparse(os.path.join('..', '..', 'res', each),
+		context = iter(ET.iterparse(os.path.join(PWD, '..', '..', 'res', each),
 												events=('start', 'end')))
 		for event, elem in context:
 			if event == 'end' and elem.tag == what:
@@ -17,7 +19,7 @@ def observe(what, which, files, mapToOrig):
 
 def _verify_node_attribs(mapToOrig, files):
 	for each in files:
-		context = iter(ET.iterparse(os.path.join('..', '..', 'res', each),
+		context = iter(ET.iterparse(os.path.join(PWD, '..', '..', 'res', each),
 												events=('start', 'end')))
 		nodeCount = 0
 		id_ = set()
@@ -54,15 +56,15 @@ def _verify_node_attribs(mapToOrig, files):
 		return True
 
 
-def verify(what, node_data, mapToOrig, files=None):
+def verify(what, which, node_data, mapToOrig, files=None):
 	if what not in ['node', 'way']:
 		return False
 	if what == 'node':
 		# This is because all node tags must have one child named 'tag'
-		if len(list(node_data)) != 1 or list(node_data)[0] != 'tag':
+		if len(list(node_data)) != 1 or list(node_data)[0] != which:
 			raise ValueError("Childs of node is Unknown!!")
 		if not _verify_node_attribs(mapToOrig, files):
 			raise AttributeError("Some node attributes are missing")
-		print(colored("[PASSED✓]", "green", attrs=['bold']) + " Node verification completed successfully")
+		print(colored("[PASSED✓]", "green", attrs=['bold']) + " Node verification audit")
 
 	return True

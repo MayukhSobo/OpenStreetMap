@@ -1,11 +1,13 @@
 import xml.etree.cElementTree as ET
 from termcolor import colored
 import os
+import inspect
+PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 
 def validate_location(what, which, files, mapToOrig):
 	for each in files:
-		context = iter(ET.iterparse(os.path.join('..', '..', 'res', each),
+		context = iter(ET.iterparse(os.path.join(PWD, '..', '..', 'res', each),
 												events=('start', 'end')))
 		for event, elem in context:
 			if event == 'end' and elem.tag == 'node':

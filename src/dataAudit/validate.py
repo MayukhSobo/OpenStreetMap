@@ -1,7 +1,7 @@
-from userValidate import validate_user
-from locValidate import validate_location
-from observation import observe, verify
-from gather import gather_nodes
+from . import userValidate
+from . import locValidate
+from . import observation
+from . import gather
 
 
 class Validate(object):
@@ -31,18 +31,18 @@ class Validate(object):
 
 			# --------- USER validation --------- #
 			if what == 'user':
-				validate_user(what, which, Validate.files, mapToOrig)
+				userValidate.validate_user(what, which, Validate.files, mapToOrig)
 			# ------------------------------------ #
 
 			# -------- LOCATION validation --------#
 			if what == 'location':
-				validate_location(what, which, Validate.files, mapToOrig)
+				locValidate.validate_location(what, which, Validate.files, mapToOrig)
 			# -------------------------------------#
 
 			# >>>>>>>>>>>>>  OBSERVATIONS <<<<<<<<<<<<<< #
 			# For node
-			node_data = observe(what, which, Validate.files, mapToOrig)
-			Validate.verification_status = verify(what, node_data, mapToOrig, Validate.files)
+			node_data = observation.observe(what, Validate.files, mapToOrig)
+			Validate.verification_status = observation.verify(what, which, node_data, mapToOrig, Validate.files)
 			# For way
 
 	@staticmethod
@@ -50,15 +50,21 @@ class Validate(object):
 		if root == 'node':
 			if not Validate.verification_status:
 				raise AttributeError("Verification for {} was not performed".format(root))
-			return gather_nodes(child, typeof, Validate.files, Validate.map_to_original)
+			if typeof == 'grouped':
+				return gather.gather_nodes_for_cleaning(child, typeof, Validate.files, Validate.map_to_original)
+			else:
+				return gather.gather_nodes_for_observation(child, typeof, Validate.files, Validate.map_to_original)
 
 
-def main():
-	Validate(files=['data1000.osm'], user='uid',
-									location=['lat', 'lon'],
-									node='tag')
-	print(Validate.gather(root='node', typeof='all'))
+# def main():
+# 	Validate(files=['data10000.osm'], user='uid',
+# 									location=['lat', 'lon'],
+# 									node='tag')
+
+# 	data = Validate.gather(root='node', typeof='grouped')
+# 	for each in data:
+# 		print(each)
 
 
-if __name__ == '__main__':
-	main()
+# if __name__ == '__main__':
+# 	main()
