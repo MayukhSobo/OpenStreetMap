@@ -6,7 +6,8 @@ from . import gather
 
 class Validate(object):
 
-	verification_status = False
+	verification_status_node = False
+	verification_status_way = False
 	files = None
 	map_to_original = False
 
@@ -40,20 +41,23 @@ class Validate(object):
 			# -------------------------------------#
 
 			# >>>>>>>>>>>>>  OBSERVATIONS <<<<<<<<<<<<<< #
-			# For node
-			node_data = observation.observe(what, Validate.files, mapToOrig)
-			Validate.verification_status = observation.verify(what, which, node_data, mapToOrig, Validate.files)
-			# For way
+			tags_data = observation.observe(what, Validate.files, mapToOrig)
+			if what == 'node':
+				Validate.verification_status_node = observation.verify(what, which, tags_data, mapToOrig, Validate.files)
+			elif what == 'way':
+				Validate.verification_status_way = observation.verify(what, which, tags_data, mapToOrig, Validate.files)
 
 	@staticmethod
 	def gather(root, child='*', typeof='unique'):
-		if root == 'node':
-			if not Validate.verification_status:
-				raise AttributeError("Verification for {} was not performed".format(root))
-			if typeof == 'grouped':
-				return gather.gather_nodes_for_cleaning(child, typeof, Validate.files, Validate.map_to_original)
-			else:
-				return gather.gather_nodes_for_observation(child, typeof, Validate.files, Validate.map_to_original)
+		if root == 'node' and not Validate.verification_status_node:
+			raise AttributeError("Verification for node was not performed/successful")
+		if root == 'way' and not Validate.verification_status_way:
+			raise AttributeError("Verification for way was not performed/successful")
+
+		if typeof == 'grouped':
+			return gather.gather_for_cleaning(root, child, typeof, Validate.files, Validate.map_to_original)
+		else:
+			return gather.gather_for_observation(root, child, typeof, Validate.files, Validate.map_to_original)
 
 
 # def main():
