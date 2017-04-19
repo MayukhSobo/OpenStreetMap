@@ -7,6 +7,10 @@ PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 
 def validate_user(what, which, files, mapToOrig):
+	if mapToOrig:
+		if files:
+			print(colored("[**WARNING!!**]", "yellow", attrs=['bold']) + " map_to_original is true..Ignoring the files")
+		files = ['gurugram.osm']
 	for each in files:
 		context = iter(ET.iterparse(os.path.join(PWD, '..', '..', 'res', each),
 												events=('start', 'end')))

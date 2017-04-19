@@ -17,8 +17,8 @@ class Validate(object):
 		for what, which in kwargs.items():
 			self.validators.append({what: which})
 
-		if files is None:
-			raise ValueError("Files can not be None")
+		if files is None and not Validate.map_to_original:
+			raise ValueError("Files can not be None if map_to_original is false")
 		else:
 			Validate.files = files
 		self._validate(Validate.map_to_original)

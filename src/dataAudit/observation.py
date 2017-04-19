@@ -6,6 +6,10 @@ PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 
 def observe(what, files, mapToOrig):
+	if mapToOrig:
+		if files:
+			print(colored("[**WARNING!!**]", "yellow", attrs=['bold']) + " map_to_original is true..Ignoring the files")
+		files = ['gurugram.osm']
 	if what not in ('node', 'way', 'relation'):
 		return None
 	for each in files:
@@ -89,6 +93,10 @@ def _verify_way_attribs(mapToOrig, files):
 
 
 def verify(what, which, tags_data, mapToOrig, files=None):
+	if mapToOrig:
+		if files:
+			print(colored("[**WARNING!!**]", "yellow", attrs=['bold']) + " map_to_original is true..Ignoring the files")
+		files = ['gurugram.osm']
 	if what not in ('node', 'way', 'relation'):
 		return False
 
