@@ -2,3 +2,4 @@
 *.osm
 venv/
 __py*
+*.pyc
