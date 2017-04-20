@@ -1,13 +1,14 @@
 import sys
 import os
 import inspect
-# from fixAmenity import fixReligion
+
 
 PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 sys.path.append(os.path.join(PWD, '..'))
 sys.path.append(os.path.join(PWD))
 from dataAudit import validate
 from generic import clean_nodes_no_names
+from fixAmenity import fixReligion
 print(sys.path)
 a = [
 	(
@@ -95,29 +96,27 @@ class Cleaner(object):
 		data = self.node_data
 		for tag in searchMatchTag:
 			data = clean_nodes_no_names(tag, data)
-		# for each in self.operation_map:
-		# 	if each[1]['operation'] == 'add_field':
-		# 		self.add_field(each)
-		# 	# elif each[1]['operation'] == 'remove_entry':
-		# 	# 	self.remove_entry(each)
-		# 	# elif each[1]['operation'] == 'extract':
-		# 	# 	self.extract(each)
-		for each in data:
-			print(each)
-			# pass
+		self.node_data = data
+		for each in self.operation_map:
+			if each[1]['operation'] == 'add_field':
+				self.add_field(each)
+			# elif each[1]['operation'] == 'remove_entry':
+			# 	self.remove_entry(each)
+			# elif each[1]['operation'] == 'extract':
+			# 	self.extract(each)
 
-	# def add_field(self, options):
-	# 	try:
-	# 		if options[-1]['on'] == 'religion':
-	# 			fixReligion(options, self.node_data, self.way_data)
-	# 	except KeyError:
-	# 		raise SyntaxError('Error in operation_map syntax')
+	def add_field(self, options):
+		try:
+			if options[-1]['on'] == 'religion':
+				fixReligion(options, self.node_data, self.way_data)
+		except KeyError:
+			raise SyntaxError('Error in operation_map syntax')
 
-	# def remove_entry(self, options):
-	# 	print(options)
+	def remove_entry(self, options):
+		print(options)
 
-	# def extract(self, options):
-	# 	print(options)
+	def extract(self, options):
+		print(options)
 
 
 if __name__ == '__main__':
