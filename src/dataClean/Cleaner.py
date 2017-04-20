@@ -1,12 +1,14 @@
 import sys
 import os
 import inspect
-from fixAmenity import fixReligion
-from generic import clean_nodes_no_names
+# from fixAmenity import fixReligion
+
 PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 sys.path.append(os.path.join(PWD, '..'))
+sys.path.append(os.path.join(PWD))
 from dataAudit import validate
-
+from generic import clean_nodes_no_names
+print(sys.path)
 a = [
 	(
 		{'amenity': 'place_of_worship'},
@@ -104,12 +106,12 @@ class Cleaner(object):
 			print(each)
 			# pass
 
-	def add_field(self, options):
-		try:
-			if options[-1]['on'] == 'religion':
-				fixReligion(options, self.node_data, self.way_data)
-		except KeyError:
-			raise SyntaxError('Error in operation_map syntax')
+	# def add_field(self, options):
+	# 	try:
+	# 		if options[-1]['on'] == 'religion':
+	# 			fixReligion(options, self.node_data, self.way_data)
+	# 	except KeyError:
+	# 		raise SyntaxError('Error in operation_map syntax')
 
 	# def remove_entry(self, options):
 	# 	print(options)
