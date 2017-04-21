@@ -8,7 +8,7 @@ sys.path.append(os.path.join(PWD, '..'))
 sys.path.append(os.path.join(PWD))
 from dataAudit import validate
 from generic import clean_nodes_no_names
-from fixAmenity import fixReligion
+from fixAmenity import fixReligion, fixAtms
 print(sys.path)
 a = [
 	(
@@ -93,22 +93,30 @@ class Cleaner(object):
 	def clean(self):
 		# Removing all the nodes having no 'names' except some few
 		searchMatchTag = ['amenity', 'highway', ('landuse', 'commercial')]
-		data = self.node_data
+		data_node = self.node_data
+		data_way = self.way_data
 		for tag in searchMatchTag:
-			data = clean_nodes_no_names(tag, data)
-		self.node_data = data
+			data_node = clean_nodes_no_names(tag, data_node)
+			data_way = clean_nodes_no_names(tag, data_way)
+		self.node_data = data_node
+		self.way_data = data_way
+		# for each in self.way_data:
+		# 	print(each)
 		for each in self.operation_map:
 			if each[1]['operation'] == 'add_field':
 				self.add_field(each)
-			# elif each[1]['operation'] == 'remove_entry':
-			# 	self.remove_entry(each)
-			# elif each[1]['operation'] == 'extract':
-			# 	self.extract(each)
+		fixAtms(self.node_data)
+		# 	# elif each[1]['operation'] == 'remove_entry':
+		# 	# 	self.remove_entry(each)
+		# 	# elif each[1]['operation'] == 'extract':
+		# 	# 	self.extract(each)
+		return self.node_data, self.way_data
 
 	def add_field(self, options):
 		try:
 			if options[-1]['on'] == 'religion':
-				fixReligion(options, self.node_data, self.way_data)
+				self.node_data = fixReligion(self.node_data)
+				self.way_data = fixReligion(self.way_data)
 		except KeyError:
 			raise SyntaxError('Error in operation_map syntax')
 
@@ -122,6 +130,6 @@ class Cleaner(object):
 if __name__ == '__main__':
 	validate.Validate.verification_status_node = True
 	validate.Validate.verification_status_way = True
-	validate.Validate.files = ['data10.osm']
+	validate.Validate.files = ['data1000.osm']
 	c = Cleaner(a)
 	c.clean()
