@@ -8,7 +8,7 @@ sys.path.append(os.path.join(PWD, '..'))
 sys.path.append(os.path.join(PWD))
 from dataAudit import validate
 from generic import clean_nodes_no_names
-from fixAmenity import fixReligion, fixAtms
+from fixAmenity import *
 # print(sys.path)
 
 
@@ -43,7 +43,7 @@ class Cleaner(object):
 		# ###### Fixing the atms #########
 		self.node_data = fixAtms(self.node_data)
 		self.way_data = fixAtms(self.way_data)
-
+		self.node_data = extractAtms(self.node_data)
 		return self.node_data, self.way_data
 
 

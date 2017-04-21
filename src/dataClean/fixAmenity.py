@@ -6,6 +6,7 @@ handled amenities, the handled ones are 'religion',
 'atm', 'bank', 'restaurants', 'fastfood'
 """
 import re
+from copy import deepcopy
 searchMatchTag = 'amenity'
 
 
@@ -67,4 +68,27 @@ def fixAtms(data):
 					each['removed'] = 'true'
 				else:
 					each['k'][each['k'].index('operator')] = 'name'
+		yield each
+
+
+def extractAtms(data):
+	"""
+	It is extracting all the atms from the
+	banks. It is taking a node/way having both
+	'atm' and 'bank' and creating two separate
+	nodes/ways with two separate 'amenities'
+	:param: data - restructured and verified node data and way data
+	"""
+	searchMatchValue = 'bank'
+	for each in data:
+		if searchMatchTag in each['k'] and searchMatchValue in each['v']:
+			tagValueData = dict(zip(each['k'], each['v']))
+			if tagValueData.get('atm') is not None:
+				tempEach = deepcopy(each)
+				tempEach['v'].pop(tempEach['k'].index('atm'))
+				tempEach['k'].remove('atm')
+				tempEach['v'][tempEach['k'].index('amenity')] = 'atm'
+				# This is for newly created atm node
+				yield tempEach
+		# This is for the already exixting bank node
 		yield each
