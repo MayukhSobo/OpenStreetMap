@@ -51,5 +51,5 @@ if __name__ == '__main__':
 	validate.Validate.verification_status_node = True
 	validate.Validate.verification_status_way = True
 	validate.Validate.files = ['data1000.osm']
-	c = Cleaner(a)
+	c = Cleaner()
 	c.clean()

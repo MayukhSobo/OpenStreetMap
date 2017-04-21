@@ -13,59 +13,59 @@ a = [
 		{'on': 'religion'}
 	),
 
-	(
-		{'name': '*'},
-		{'operation': 'remove_entry'},
-		{'condition': 'false'},
-		{'on': 'name'}
-	),
+	# (
+	# 	{'name': '*'},
+	# 	{'operation': 'remove_entry'},
+	# 	{'condition': 'false'},
+	# 	{'on': 'name'}
+	# ),
 
-	(
-		{'amenity': 'atm'},
-		{'operation': 'extract'},
-		{'from': 'amenity > bank'}
-	),
+	# (
+	# 	{'amenity': 'atm'},
+	# 	{'operation': 'extract'},
+	# 	{'from': 'amenity > bank'}
+	# ),
 
-	(
-		{'addr:country': 'IN'},
-		{'operation': 'replace'},
-		{'IN': 'India'},
-		{'on': 'addr:country'}
-	),
+	# (
+	# 	{'addr:country': 'IN'},
+	# 	{'operation': 'replace'},
+	# 	{'IN': 'India'},
+	# 	{'on': 'addr:country'}
+	# ),
 
-	(
-		{'addr:postcode': '*'},
-		{'operation': 'fix'},
-		{'country': 'India'},
-		{'on': 'addr:postcode'}
-	),
+	# (
+	# 	{'addr:postcode': '*'},
+	# 	{'operation': 'fix'},
+	# 	{'country': 'India'},
+	# 	{'on': 'addr:postcode'}
+	# ),
 
-	(
-		{'amenity': 'marketplace'},
-		{'operation': 'remove_entry'},
-		{'condition': 'irrelevant'},
-		{'on': 'name'}
-	),
+	# (
+	# 	{'amenity': 'marketplace'},
+	# 	{'operation': 'remove_entry'},
+	# 	{'condition': 'irrelevant'},
+	# 	{'on': 'name'}
+	# ),
 
-	(
-		{'amenity': 'bar'},
-		{'operation': 'merge'},
-		{'into': 'amenity > pub'}
-	),
+	# (
+	# 	{'amenity': 'bar'},
+	# 	{'operation': 'merge'},
+	# 	{'into': 'amenity > pub'}
+	# ),
 
-	(
-		{'amenity': 'restaurants'},
-		{'operation': 'fix'},
-		{'on': 'name'}
-	),
+	# (
+	# 	{'amenity': 'restaurants'},
+	# 	{'operation': 'fix'},
+	# 	{'on': 'name'}
+	# ),
 
-	(
-		{'way': 'ref'},
-		{'operation': 'change_field'},
-		{'fieldName': 'type'},
-		{'condition': 'ref[0] == ref[-1]'},
-		{'on': 'type'}
-	),
+	# (
+	# 	{'way': 'ref'},
+	# 	{'operation': 'change_field'},
+	# 	{'fieldName': 'type'},
+	# 	{'condition': 'ref[0] == ref[-1]'},
+	# 	{'on': 'type'}
+	# ),
 ]
 
 
@@ -84,8 +84,13 @@ def main():
 									node='tag', way=['tag', 'nd'],
 									map_to_original=False)
 	print(colored("[>>>>>>>> INFO!! <<<<<<<<]", "blue", attrs=['bold']) + " Started Data Cleaning")
-	clean = Cleaner.Cleaner(a)
-	clean.clean()
+	clean = Cleaner.Cleaner()
+	node_data, way_data = clean.clean()
+	for each in node_data:
+		print(each)
+	# print(next(node_data))
+	for each in way_data:
+		print(each)
 
 	# data = validate.Validate.gather(root='node', typeof='grouped')
 	# for each in data:
