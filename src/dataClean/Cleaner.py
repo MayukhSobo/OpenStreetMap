@@ -9,7 +9,7 @@ sys.path.append(os.path.join(PWD))
 from dataAudit import validate
 from generic import clean_nodes_no_names
 from fixAmenity import fixReligion, fixAtms
-print(sys.path)
+# print(sys.path)
 a = [
 	(
 		{'amenity': 'place_of_worship'},
@@ -77,16 +77,16 @@ a = [
 
 class Cleaner(object):
 
-	def __init__(self, operation_map):
-		self.supported_operations = ['add_field', 'remove_entry', 'extract',
-																'replace', 'fix', 'merge', 'change_field']
-		for each in operation_map:
-			if [*each[1].keys()][0] != 'operation':
-				raise SyntaxError('Error in operation_map syntax')
-			if each[1]['operation'] not in self.supported_operations:
-				e = 'Operation \'{}\' is not implemented'.format(each[1]['operation'])
-				raise NotImplementedError(e)
-		self.operation_map = operation_map
+	def __init__(self):
+		# self.supported_operations = ['add_field', 'remove_entry', 'extract',
+		# 														'replace', 'fix', 'merge', 'change_field']
+		# for each in operation_map:
+		# 	if [*each[1].keys()][0] != 'operation':
+		# 		raise SyntaxError('Error in operation_map syntax')
+		# 	if each[1]['operation'] not in self.supported_operations:
+		# 		e = 'Operation \'{}\' is not implemented'.format(each[1]['operation'])
+		# 		raise NotImplementedError(e)
+		# self.operation_map = operation_map
 		self.node_data = validate.Validate.gather(root='node', typeof='grouped')
 		self.way_data = validate.Validate.gather(root='way', typeof='grouped')
 
@@ -100,31 +100,14 @@ class Cleaner(object):
 			data_way = clean_nodes_no_names(tag, data_way)
 		self.node_data = data_node
 		self.way_data = data_way
-		# for each in self.way_data:
-		# 	print(each)
-		for each in self.operation_map:
-			if each[1]['operation'] == 'add_field':
-				self.add_field(each)
-		fixAtms(self.node_data)
-		# 	# elif each[1]['operation'] == 'remove_entry':
-		# 	# 	self.remove_entry(each)
-		# 	# elif each[1]['operation'] == 'extract':
-		# 	# 	self.extract(each)
+		# ###### Fixing the religion #######
+		self.node_data = fixReligion(self.node_data)
+		self.way_data = fixReligion(self.way_data)
+		# ###### Fixing the atms #########
+		self.node_data = fixAtms(self.node_data)
+		self.way_data = fixAtms(self.way_data)
+
 		return self.node_data, self.way_data
-
-	def add_field(self, options):
-		try:
-			if options[-1]['on'] == 'religion':
-				self.node_data = fixReligion(self.node_data)
-				self.way_data = fixReligion(self.way_data)
-		except KeyError:
-			raise SyntaxError('Error in operation_map syntax')
-
-	def remove_entry(self, options):
-		print(options)
-
-	def extract(self, options):
-		print(options)
 
 
 if __name__ == '__main__':
