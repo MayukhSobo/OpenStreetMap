@@ -92,3 +92,36 @@ def extractAtms(data):
 				yield tempEach
 		# This is for the already exixting bank node
 		yield each
+
+
+def NameUnify(data, amenity):
+	searchMatchValue = amenity
+	for each in data:
+		if searchMatchTag in each['k'] and searchMatchValue in each['v'] and each.get('removed') != 'true':
+			tagValueData = dict(zip(each['k'], each['v']))
+			bankName = tagValueData.get('name')
+			hdfc = len(re.findall(r'([hH][dD][fF][cC])', bankName)) >= 1
+			icici = len(re.findall(r'([iI][cC][iI][cC][iI])', bankName)) >= 1
+			axis = len(re.findall(r'([aA][xX][iI][sS])', bankName)) >= 1
+			citi = len(re.findall(r'([cC][iI][tT][iI])', bankName)) >= 1
+			sbi = len(re.findall(r'([sS][bB][iI]|[sS][tT][aA][tT][eE])', bankName)) >= 1
+			kotak = len(re.findall(r'([kK][oO][tT][aA][kK])', bankName)) >= 1
+			hsbc = len(re.findall(r'[hH][sS][bB][cC]', bankName)) >= 1
+			pnb = len(re.findall(r'([pP][nN][bB]|[pP][uU][nN][jJ][aA][bB])', bankName)) >= 1
+			obc = len(re.findall(r'([Oo][bB][cC]|[Oo][rR][iI][eE][nN][tT][aA][Ll])', bankName)) >= 1
+			boi = len(re.findall(r'([bB][oO][iI]|[iI][nN][dD][iI][aA])', bankName)) >= 1
+			indusland = len(re.findall(r'([iI][nN][dD][uU][sS])', bankName)) >= 1
+			scb = len(re.findall(r'([Cc][hH][aA][rR][tT][eE][rR])', bankName)) >= 1
+			banks = [(hdfc, 'HDFC Bank'), (icici, 'ICICI Bank'), (axis, 'AXIS Bank'), (citi, 'CITI Bank'), (sbi, 'State Bank of India'), (kotak, 'KOTAK MAHINDRA'), (hsbc, 'HSBC Bank'), (pnb, 'Punjab National Bank'), (obc, 'ORIENTAL BANK OF COMMERCE'), (boi, 'BANK OF INDIA'), (indusland, 'INDUSLAND BANK'), (scb, 'Standard Chartated Bank')]
+			for bank in banks:
+				if bank[0]:
+					temp = deepcopy(each)
+					temp['v'][temp['k'].index('name')] = bank[1]
+					# #### For most common bank and atms ####
+					yield temp
+			if not any([hdfc, icici, axis, citi, sbi, kotak, hsbc, pnb, obc, boi, indusland, scb]):
+				# #### For some uncommon banks or atms
+				yield each
+		else:
+			# #### For other nodes ####
+			yield each

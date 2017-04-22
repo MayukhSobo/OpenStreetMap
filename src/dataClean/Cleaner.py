@@ -38,12 +38,20 @@ class Cleaner(object):
 		self.node_data = data_node
 		self.way_data = data_way
 		# ###### Fixing the religion #######
+		# Perfromed both on node & way ####
 		self.node_data = fixReligion(self.node_data)
 		self.way_data = fixReligion(self.way_data)
-		# ###### Fixing the atms #########
-		self.node_data = fixAtms(self.node_data)
-		self.way_data = fixAtms(self.way_data)
+
+		# ###### Fixing the atms and banks #########
+		# Only nodes have bank/atm information ####
+
+		# _____ extracting atms from banks ____ #
 		self.node_data = extractAtms(self.node_data)
+		# ______ unifying 'name' & 'operator' ____ #
+		self.node_data = fixAtms(self.node_data)
+		# _____ unifying atm & bank 'name' _____#
+		self.node_data = NameUnify(self.node_data, 'bank')
+		self.node_data = NameUnify(self.node_data, 'atm')
 		return self.node_data, self.way_data
 
 
