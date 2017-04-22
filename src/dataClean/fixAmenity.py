@@ -140,3 +140,17 @@ def NameUnify(data, amenity):
 		else:
 			# #### For other nodes ####
 			yield each
+
+
+def mergeBARnPUB(data):
+	"""
+	Bar and Pub are the same thing and they should
+	be treated similiarly at least to a general drinker.
+	This is doing just that.
+	:param: data - restructured and verified node data and way data
+	"""
+	searchMatchValue = 'pub'
+	for each in data:
+		if searchMatchTag in each['k'] and searchMatchValue in each['v'] and each.get('removed') != 'true':
+			each['v'][each['k'].index(searchMatchTag)] = 'bar'
+		yield each

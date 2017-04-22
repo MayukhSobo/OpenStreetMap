@@ -52,6 +52,9 @@ class Cleaner(object):
 		# _____ unifying atm & bank 'name' _____#
 		self.node_data = NameUnify(self.node_data, 'bank')
 		self.node_data = NameUnify(self.node_data, 'atm')
+
+		# ______ merging bar and pub togather ____ #
+		self.node_data = mergeBARnPUB(self.node_data)
 		return self.node_data, self.way_data
 
 
