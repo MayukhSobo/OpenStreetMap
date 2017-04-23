@@ -4,70 +4,6 @@ from dataClean import Cleaner
 import sys
 from termcolor import colored
 
-a = [
-	(
-		{'amenity': 'place_to_worship'},
-		{'operation': 'add_field'},
-		{'fieldName': 'religion'},
-		{'condition': 'false'},
-		{'on': 'religion'}
-	),
-
-	# (
-	# 	{'name': '*'},
-	# 	{'operation': 'remove_entry'},
-	# 	{'condition': 'false'},
-	# 	{'on': 'name'}
-	# ),
-
-	# (
-	# 	{'amenity': 'atm'},
-	# 	{'operation': 'extract'},
-	# 	{'from': 'amenity > bank'}
-	# ),
-
-	# (
-	# 	{'addr:country': 'IN'},
-	# 	{'operation': 'replace'},
-	# 	{'IN': 'India'},
-	# 	{'on': 'addr:country'}
-	# ),
-
-	# (
-	# 	{'addr:postcode': '*'},
-	# 	{'operation': 'fix'},
-	# 	{'country': 'India'},
-	# 	{'on': 'addr:postcode'}
-	# ),
-
-	# (
-	# 	{'amenity': 'marketplace'},
-	# 	{'operation': 'remove_entry'},
-	# 	{'condition': 'irrelevant'},
-	# 	{'on': 'name'}
-	# ),
-
-	# (
-	# 	{'amenity': 'bar'},
-	# 	{'operation': 'merge'},
-	# 	{'into': 'amenity > pub'}
-	# ),
-
-	# (
-	# 	{'amenity': 'restaurants'},
-	# 	{'operation': 'fix'},
-	# 	{'on': 'name'}
-	# ),
-
-	# (
-	# 	{'way': 'ref'},
-	# 	{'operation': 'change_field'},
-	# 	{'fieldName': 'type'},
-	# 	{'condition': 'ref[0] == ref[-1]'},
-	# 	{'on': 'type'}
-	# ),
-]
-
 
 def main():
 	# #This is data framing
@@ -86,11 +22,15 @@ def main():
 	print(colored("[>>>>>>>> INFO!! <<<<<<<<]", "blue", attrs=['bold']) + " Started Data Cleaning")
 	clean = Cleaner.Cleaner()
 	node_data, way_data = clean.clean()
-	for each in node_data:
-		print(each)
-	# print(next(node_data))
-	for each in way_data:
-		print(each)
+	print(colored("[>>>>>>>> INFO!! <<<<<<<<]", "blue", attrs=['bold']) + " Started Data Extaction and Storage")
+
+	# for each in node_data:
+	# 	if 'cuisine' in each['k']:
+	# 		print(each)
+	# for each in node_data:
+	# 	print(each)
+	# for each in way_data:
+	# 	each
 
 	# data = validate.Validate.gather(root='node', typeof='grouped')
 	# for each in data:
