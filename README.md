@@ -28,4 +28,19 @@ The project is designed as modular as possible. Almost all my project structures
 
  -  **test -** Contains all the unit test cases. The code validations can be preformed here. Code coverage is not covered.
 
-### Scripts
+## 3. Scripts
+
+There are multiple scripts that can ease the project to a lot extent. The scripts are following
+
+ - **autorun.sh - **
+ - **configure.sh -**
+ - **export.sh -**
+ - **notebook.sh -** (Coming Soon)
+
+## 4. Data
+
+
+## 5. Execution
+
+
+## 6. Export Links
