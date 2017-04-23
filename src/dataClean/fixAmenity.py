@@ -7,6 +7,7 @@ handled amenities, the handled ones are 'religion',
 """
 import re
 from copy import deepcopy
+from termcolor import colored
 searchMatchTag = 'amenity'
 
 
@@ -154,3 +155,59 @@ def mergeBARnPUB(data):
 		if searchMatchTag in each['k'] and searchMatchValue in each['v'] and each.get('removed') != 'true':
 			each['v'][each['k'].index(searchMatchTag)] = 'bar'
 		yield each
+
+
+def createCuisine(data):
+	searchMatchValue = 'restaurant'
+	for each in data:
+		if searchMatchTag in each['k'] and searchMatchValue in each['v'] and each.get('removed') != 'true':
+			tagValueData = dict(zip(each['k'], each['v']))
+			name = tagValueData.get('name')
+			# #### Popular cusine predictions from name ####
+			haldiram = len(re.findall(r'([hH][aA][lL][dD][iI][rR][aA][mM])', name)) >= 1
+			pizza = len(re.findall(r'([pP][iI][zZ][zZ][aA])', name)) >= 1
+			chinese = len(re.findall(r'([cC][hH][iI][nN][aA]|[cC][hH][iI][nN][eE][sS][eE])', name)) >= 1
+			korean = len(re.findall(r'([kK][oO][rR][eE][aA][nN])', name)) >= 1
+
+			cuisines = [(haldiram, 'Snacks'), (pizza, 'pizza'), (chinese, 'Chinese'), (korean, 'Korean')]
+			for cuisine in cuisines:
+				if cuisine[0]:
+					temp = deepcopy(each)
+					if 'cuisine' in temp['k']:
+						temp['v'][temp['k'].index('cuisine')] = cuisine[1]
+					else:
+						temp['k'].append('cuisine')
+						temp['v'].append(cuisine[1])
+					yield temp
+			if not any([haldiram, pizza, chinese, korean]):
+				if 'cuisine' in each['k']:
+					each['v'][each['k'].index('cuisine')] = 'regional'
+				else:
+					each['k'].append('cuisine')
+					each['v'].append('regional')
+				yield each
+		else:
+			yield each
+
+
+def unifyFuel(data):
+	searchMatchValue = 'fuel'
+	# t = set()
+	for each in data:
+		if searchMatchTag in each['k'] and searchMatchValue in each['v'] and each.get('removed') != 'true':
+			tagValueData = dict(zip(each['k'], each['v']))
+			name = tagValueData.get('name')
+			ibp = len(re.findall(r'([iI][bB][pP])', name)) >= 1
+			cng = len(re.findall(r'([cC][nN][gG])', name)) >= 1
+			io = len(re.findall(r'([iI][nN][dD][iI][aA])', name)) >= 1
+			bp = len(re.findall(r'([bB][hH][aA][rR][aA][tT])', name)) >= 1
+			gas_station = [(ibp, 'IBP petrol pump'), (cng, 'CNG station'), (io, 'Indian Oil'), (bp, 'Bharat Petrolium')]
+			for gas in gas_station:
+				if gas[0]:
+					temp = deepcopy(each)
+					temp['v'][temp['k'].index('name')] = gas[1]
+					yield temp
+			if not any([ibp, cng, io, bp]):
+				yield each
+		else:
+			yield each

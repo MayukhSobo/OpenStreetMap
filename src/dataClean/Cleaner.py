@@ -7,7 +7,7 @@ PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 sys.path.append(os.path.join(PWD, '..'))
 sys.path.append(os.path.join(PWD))
 from dataAudit import validate
-from generic import clean_nodes_no_names
+from generic import *
 from fixAmenity import *
 # print(sys.path)
 
@@ -37,24 +37,42 @@ class Cleaner(object):
 			data_way = clean_nodes_no_names(tag, data_way)
 		self.node_data = data_node
 		self.way_data = data_way
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Cleaning for no names")
+		self.node_data = expand_country_name('addr:country', 'India', self.node_data)
+		self.way_data = expand_country_name('addr:country', 'India', self.way_data)
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Cleaning for Country name")
+		self.way_data = detect_area_from_way(self.way_data)
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Marking the area")
 		# ###### Fixing the religion #######
 		# Perfromed both on node & way ####
 		self.node_data = fixReligion(self.node_data)
 		self.way_data = fixReligion(self.way_data)
-
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Cleaning the religion tags")
 		# ###### Fixing the atms and banks #########
 		# Only nodes have bank/atm information ####
 
 		# _____ extracting atms from banks ____ #
 		self.node_data = extractAtms(self.node_data)
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Extraction of atms from bank")
 		# ______ unifying 'name' & 'operator' ____ #
 		self.node_data = fixAtms(self.node_data)
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Fixing the atm format")
 		# _____ unifying atm & bank 'name' _____#
 		self.node_data = NameUnify(self.node_data, 'bank')
 		self.node_data = NameUnify(self.node_data, 'atm')
-
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Unification of bank and atm names")
 		# ______ merging bar and pub togather ____ #
 		self.node_data = mergeBARnPUB(self.node_data)
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Combining the bar and pub")
+		self.node_data = unifyFuel(self.node_data)
+		self.way_data = unifyFuel(self.way_data)
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Unification of fuel stations")
+		self.node_data = createCuisine(self.node_data)
+		self.way_data = createCuisine(self.way_data)
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Implementing cuisine for restaurants")
+		self.node_data = fixAddress(self.node_data)
+		self.way_data = fixAddress(self.way_data)
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Fixing the address of all nodes and ways")
 		return self.node_data, self.way_data
 
 
