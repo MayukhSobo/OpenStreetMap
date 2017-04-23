@@ -5,8 +5,8 @@
 Table of Contents
 =================
  * [Introduction](#introduction)
- * [Introduction](#Introduction)
- * [Scripts](#Scripts)
+ * [Introduction](#project-structure)
+ * [Scripts](#scripts)
 
 
 ## Introduction
