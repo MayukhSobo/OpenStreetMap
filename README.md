@@ -27,3 +27,5 @@ The project is designed as modular as possible. Almost all my project structures
    created by `configure` script.
 
  -  **test -** Contains all the unit test cases. The code validations can be preformed here. Code coverage is not covered.
+
+## Scripts
