@@ -4,7 +4,7 @@
 
 Table of Contents
 =================
- * [Introduction](#Introduction)
+ * [Introduction](#introduction)
  * [Introduction](#Introduction)
  * [Scripts](#Scripts)
 
