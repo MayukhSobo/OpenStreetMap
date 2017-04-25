@@ -1,4 +1,5 @@
 from copy import deepcopy
+import re
 
 
 def clean_nodes_no_names(tag, data):
@@ -42,4 +43,28 @@ def fixAddress(data):
 			else:
 				tempK.append(tag)
 			each['k'] = deepcopy(tempK)
+		yield each
+
+
+def removeHindiNames(data):
+	hi = r"\w+:hi$"
+	for each in data:
+		k = list(filter(lambda e: re.findall(hi, e) != [], each['k']))
+		if k:
+			for e in k:
+				index = each['k'].index(e)
+				each['k'].pop(index)
+				each['v'].pop(index)
+		yield each
+
+
+def removeIsINs(data):
+	is_in = r"is_in:(\w+)"
+	for each in data:
+		k = list(filter(lambda e: re.findall(is_in, e) != [], each['k']))
+		if k:
+			# print(k[0])
+			for e in k:
+				index = each['k'].index(e)
+				each['k'][index] = e.split(':')[-1]
 		yield each

@@ -73,6 +73,11 @@ class Cleaner(object):
 		self.node_data = fixAddress(self.node_data)
 		self.way_data = fixAddress(self.way_data)
 		print(colored("[DONE✓]", "green", attrs=['bold']) + " Fixing the address of all nodes and ways")
+		self.node_data = removeHindiNames(self.node_data)
+		self.way_data = removeHindiNames(self.way_data)
+		self.node_data = removeIsINs(self.node_data)
+		self.way_data = removeIsINs(self.way_data)
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Fixing problamatic characters in tags and/or values")
 		return self.node_data, self.way_data
 
 
