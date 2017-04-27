@@ -68,3 +68,21 @@ def removeIsINs(data):
 				index = each['k'].index(e)
 				each['k'][index] = e.split(':')[-1]
 		yield each
+
+
+def removeBackSlashes(data):
+	backslash = r'.*(\\).*'
+	for each in data:
+		for v in each.values():
+			if not isinstance(v, list):
+				# Not implemented because not true case
+				pass
+		tagValueData = dict(zip(each['k'], each['v']))
+		for tag, val in tagValueData.items():
+			if re.findall(backslash, str(tag)) != []:
+				_tag = " ".join(map(lambda e: e.strip(), str(tag).split('\\'))).strip()
+				each['k'][each['k'].index(tag)] = _tag
+			if re.findall(backslash, str(val)) != []:
+				_val = " ".join(map(lambda e: e.strip(), str(val).split('\\'))).strip()
+				each['v'][each['v'].index(val)] = _val
+		yield each

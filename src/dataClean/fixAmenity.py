@@ -7,7 +7,6 @@ handled amenities, the handled ones are 'religion',
 """
 import re
 from copy import deepcopy
-from termcolor import colored
 searchMatchTag = 'amenity'
 
 

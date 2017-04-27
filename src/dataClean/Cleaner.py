@@ -1,7 +1,7 @@
 import sys
 import os
 import inspect
-
+from termcolor import colored
 
 PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 sys.path.append(os.path.join(PWD, '..'))
@@ -78,6 +78,9 @@ class Cleaner(object):
 		self.node_data = removeIsINs(self.node_data)
 		self.way_data = removeIsINs(self.way_data)
 		print(colored("[DONE✓]", "green", attrs=['bold']) + " Fixing problamatic characters in tags and/or values")
+		self.node_data = removeBackSlashes(self.node_data)
+		self.way_data = removeBackSlashes(self.way_data)
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Removing backslashes form the strings")
 		return self.node_data, self.way_data
 
 
