@@ -31,7 +31,6 @@ def detect_area_from_way(data):
 	for each in data:
 		if int(each['refs'][0]) == int(each['refs'][-1]):
 			each['type'] = 'area'
-			print(each)
 		yield each
 
 
