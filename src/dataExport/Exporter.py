@@ -27,7 +27,6 @@ class Exporter(object):
 				exportFile = os.path.join(exportDir, eFile)
 				with open(exportFile, 'w') as exf:
 					for each in self.node:
-						exf.write('{\n')
 						changeset = each.get('changeset')
 						_id = each.get('id')
 						lat = each.get('lat')
@@ -37,6 +36,7 @@ class Exporter(object):
 						removed = each.get('removed')
 						# This part is constant for all nodes
 						if removed is None or removed == 'false':
+							exf.write('{\n')
 							exf.write(indent + '"id": ' + str(_id) + ',\n')
 							exf.write(indent + '"type": ' + '"' + str(_type) + '",\n')
 							exf.write(indent + '"position": [' + str(lat) + ', ' + str(lon) + '],\n')
