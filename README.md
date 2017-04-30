@@ -108,7 +108,7 @@ After the the cleaning and export stage when it is stored into the JSON file thi
 ## 6. Execution
 To run this project locally ,
 
-_**Step 1: **_ Clone the the project locally
+_**Step 1:**_ Clone the the project locally
 
 _**Step 2:**_ Ensure ```python3``` is installed in your system. Recommended version is **>= Python 3.6**
 
