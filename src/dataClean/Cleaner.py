@@ -81,6 +81,9 @@ class Cleaner(object):
 		self.node_data = removeBackSlashes(self.node_data)
 		self.way_data = removeBackSlashes(self.way_data)
 		print(colored("[DONE✓]", "green", attrs=['bold']) + " Removing backslashes form the strings")
+		self.node_data = removeQuotes(self.node_data)
+		self.way_data = removeQuotes(self.way_data)
+		print(colored("[DONE✓]", "green", attrs=['bold']) + " Removing Quotes from strings")
 		return self.node_data, self.way_data
 
 

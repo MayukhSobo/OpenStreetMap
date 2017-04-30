@@ -1,70 +1,13 @@
-
-def testing(*args):
-    for each in args[0]:
-        print(each)
+import json
+from pprint import pprint
 
 
-a = [
-    (
-        {'amenity': 'place_to_worship'},
-        {'operation': 'add_field'},
-        {'fieldName': 'religion'},
-        {'condition': 'false'},
-        {'on': 'religion'}
-    ),
+# with open('test.json', 'w') as json_file:
+# 	json_file.write('{\n')
+# 	json_file.write('	"name": "Mayukh"')
+# 	json_file.write('\n}')
 
-    (
-        {'name': '*'},
-        {'operation': 'remove_entry'},
-        {'condition': 'false'},
-        {'on': 'name'}
-    ),
+with open('../export/export_way.json') as json_file:
+	data = iter(json.load(json_file))
 
-    (
-        {'amenity': 'atm'},
-        {'operation': 'extract'},
-        {'from': 'amenity > bank'}
-    ),
-
-    (
-        {'addr:country': 'IN'},
-        {'operation': 'replace'},
-        {'IN': 'India'},
-        {'on': 'addr:country'}
-    ),
-
-    (
-        {'addr:postcode': '*'},
-        {'operation': 'fix'},
-        {'country': 'India'},
-        {'on': 'addr:postcode'}
-    ),
-
-    (
-        {'amenity': 'marketplace'},
-        {'operation': 'remove_entry'},
-        {'condition': 'irrelevant'},
-        {'on': 'name'}
-    ),
-
-    (
-        {'amenity': 'bar'},
-        {'operation': 'merge'},
-        {'into': 'amenity > pub'}
-    ),
-
-    (
-        {'amenity': 'restaurants'},
-        {'operation': 'fix'},
-        {'on': 'name'}
-    ),
-
-    (
-        {'way': 'ref'},
-        {'operation': 'change_field'},
-        {'fieldName': 'type'},
-        {'condition': 'ref[0] == ref[-1]'},
-        {'on': 'type'}
-    ),
-]
-testing(a)
+pprint(data)
