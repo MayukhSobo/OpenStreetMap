@@ -88,6 +88,25 @@ After the the cleaning and export stage when it is stored into the JSON file thi
    }
 }
 ```
+### Way
+```
+{
+    "id": 7891819,
+    "type": "area",
+    "refs": [ 58043990, 58043991, 58043992, 
+              58043993, 58043994, 58043995, 
+              58043996, 58043997, 58043990 ],
+    "name": "School of Computational and Integrative Sciences",
+    "amenity": "school",
+    "building": "yes",
+    "created": {
+      "changeset": 18193716,
+      "user": "satyaakam"
+    }
+  }
+```
+
+
 ## 6. Execution
 
 
