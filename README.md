@@ -42,9 +42,9 @@ The project is designed as modular as possible. Almost all my project structures
 
 There are multiple scripts that can ease the project to a lot extent. The scripts are following
 
- - **autorun.sh -**
- - **configure.sh -**
- - **export.sh -**
+ - **configure.sh -** This is used only once before running the project. This install and creates the virtual environment named _'venv'_
+ 
+ - **autorun.sh -**  This runs the project and initiates the complete process. This script should be run with a parameter for the file name. Usually it is the name of the file which is to be used for all the data operations.
 ## 4. Modules
 The application is comprised of 4 major modules namely, *dataFrame, dataAudit, dataClean, dataExport*. The detailed structure is mentioned below
 
@@ -61,8 +61,33 @@ The application is comprised of 4 major modules namely, *dataFrame, dataAudit, d
   - **dataExport -** Responsible for exporting the data into a json file or into a database. Currently we are using MongoDB but data bases like MySQL can also be used because of the design pattern of the code.
 
 ## 5. Data
+The data that is currently parsed from the OSM raw_data file and currently _node_ and _way_ is used. The data is parsed into the intermediate form of python dicts. Here is how it looks
 
+### Node
+```python
+{changeset: 505778, id: 1331, lat: 34.24, lon: 24.23, k: [], v: []}
+```
+### Way
+```python
+{changeset: 505778, id: 1331, user: "Mayukh", refs: [], k: [], v: []}
+```
 
+After the the cleaning and export stage when it is stored into the JSON file this would look like following
+ 
+### Node
+> ```
+>   {
+    "id": 248852574,
+    "type": "node",
+    "position": [28.533492, 77.1518947],
+    "name": "Cafe Coffee Day",
+    "amenity": "cafe",
+    "created": {
+      "changeset": 13836050,
+      "user": "Oberaffe"
+    }
+  },
+> ```
 ## 6. Execution
 
 
