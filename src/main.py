@@ -16,7 +16,7 @@ def main():
 	p.export_dataset()
 	#########################
 	print(colored("[>>>>>>>> INFO!! <<<<<<<<]", "blue", attrs=['bold']) + " Started Data Auditing")
-	validate.Validate(files=['gurugram.osm'], user='uid',
+	validate.Validate(files=[sys.argv[1]], user='uid',
 									location=['lat', 'lon'],
 									node='tag', way=['tag', 'nd'],
 									map_to_original=False)
@@ -36,4 +36,6 @@ def main():
 
 
 if __name__ == '__main__':
+	if len(sys.argv) == 1:
+		raise AttributeError("Usage: ./autorun.sh osmfile")
 	main()
