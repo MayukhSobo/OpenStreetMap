@@ -75,19 +75,19 @@ The data that is currently parsed from the OSM raw_data file and currently _node
 After the the cleaning and export stage when it is stored into the JSON file this would look like following
  
 ### Node
-> ```
->   {
-    "id": 248852574,
-    "type": "node",
-    "position": [28.533492, 77.1518947],
-    "name": "Cafe Coffee Day",
-    "amenity": "cafe",
-    "created": {
+```
+{
+   "id": 248852574,
+   "type": "node",
+   "position": [28.533492, 77.1518947],
+   "name": "Cafe Coffee Day",
+   "amenity": "cafe",
+   "created": {
       "changeset": 13836050,
       "user": "Oberaffe"
-    }
-  },
-> ```
+   }
+}
+```
 ## 6. Execution
 
 
