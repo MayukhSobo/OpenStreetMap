@@ -105,9 +105,34 @@ After the the cleaning and export stage when it is stored into the JSON file thi
     }
   }
 ```
-
-
 ## 6. Execution
+To run this project locally ,
 
+_**Step 1: **_ Clone the the project locally
+
+_**Step 2:**_ Ensure ```python3``` is installed in your system. Recommended version is **>= Python 3.6**
+
+_**Step 3:**_ run the bash script as
+```sh
+$ sh configure.sh
+
+or,
+
+$ ./configure.sh
+```
+_**Step 4:**_ Activate the virtual environment using the following command
+```sh
+$ source ./venv/bin/activate
+```
+_**Step 5:**_ Make sure the database is properly running. In our case, we are currently using _MongoDB_. However the this project can be extended for other databases like _MySQL or Cassandra DB_.
+
+_**Step 6:**_ Execute the autorun script using the following command. It takes a file name as a parameter. This indicates the file name which is used for the data manipulation
+```sh
+$ sh autorun.sh gurugram.osm
+
+or
+
+$ ./autorun.sh gurugram.osm
+``` 
 
 ## 7. Export Links
