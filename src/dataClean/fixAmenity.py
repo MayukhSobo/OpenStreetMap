@@ -39,7 +39,7 @@ def fixReligion(data):
 				elif re.findall(jain, name) != []:
 					# ##### Fix for Jain religion
 					each['k'].append('religion')
-					each['v'].append('Jain')
+					each['v'].append('jain')
 				elif re.findall(sikh, name) != []:
 					# ##### Fix for Sikh religion
 					each['k'].append('religion')
