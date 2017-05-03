@@ -4,3 +4,4 @@ venv/
 __py*
 *.pyc
 export/*.json
+.ipynb_checkpoints/
