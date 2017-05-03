@@ -10,11 +10,11 @@ def get_db(db_name):
 
 def make_pipeline():
     # complete the aggregation pipeline
-    match1 = {"$match": {"amenity": {"$exists": 1, "$in": ["atm", "bank"]}}}
-    group = {"$group": {"_id": "$name", "total": {"$sum": 1}}}
+    match = {"$match": {"created": {"$exists": 1}}}
+    group = {"$group": {"_id": "$created.user", "total": {"$sum": 1}}}
     sort = {"$sort": {"total": -1}}
-    project = {"$project": {"_id": 0, "bank_or_atm": "$_id", "count": "$total"}}
-    pipeline = [match1, group, sort, project]
+    limit = {"$limit": 5}
+    pipeline = [match, group, sort, limit]
     return pipeline
 
 
