@@ -151,5 +151,7 @@ $ jupyter notebook Report.ipynb
 ## 7. Export Links
 
 **_Raw Data Link in OSM:_**  [Gurugram data](https://s3.amazonaws.com/mapzen.odes/ex_ouzwqdDtxgDAGC3AL9EQoXc6A1TSw.osm.bz2)
+
 **_Report Graphs:_** [Jupyter Notebook Link](http://nbviewer.jupyter.org/github/MayukhSobo/OpenStreetMap/blob/master/Report.ipynb)
+
 **_Curated Report:_** [PDF Report](#)
