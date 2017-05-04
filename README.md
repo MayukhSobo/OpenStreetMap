@@ -154,4 +154,4 @@ $ jupyter notebook Report.ipynb
 
 **_Report Graphs:_** [Jupyter Notebook Link](http://nbviewer.jupyter.org/github/MayukhSobo/OpenStreetMap/blob/master/Report.ipynb)
 
-**_Curated Report:_** [PDF Report](#)
+**_Curated Report:_** [PDF Report](https://github.com/MayukhSobo/OpenStreetMap/raw/master/OpenStreetDataMapReport.pdf)
