@@ -88,9 +88,9 @@ class Validate(object):
 			raise AttributeError("Verification for way was not performed/successful")
 
 		if typeof == 'grouped':
-			return gather.gather_for_cleaning(root, child, typeof, Validate.files, Validate.map_to_original)
+			return gather.gather_for_cleaning(root, Validate.files)
 		else:
-			return gather.gather_for_observation(root, child, typeof, Validate.files, Validate.map_to_original)
+			return gather.gather_for_observation(root, child, typeof, Validate.files)
 
 
 # def main():

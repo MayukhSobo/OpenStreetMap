@@ -23,7 +23,7 @@ def main():
 	p = DataFramerXML.DataFramerXML(sys.argv[1], tags=tags, files=files)
 	p.export_dataset()
 	#########################
-	print(sys.path)
+	# print(sys.path)
 	print(colored("[>>>>>>>> INFO!! <<<<<<<<]", "blue", attrs=['bold']) + " Started Data Auditing")
 	validate.Validate(files=[sys.argv[1]], user='uid',
 									location=['lat', 'lon'],
@@ -41,7 +41,7 @@ def main():
 	# ####  This can only be used if 'exporter_format'='json' in Exporter ###
 	print(colored("[>>>>>>>> INFO!! <<<<<<<<]", "blue", attrs=['bold']) + " Started storing data into database...This may take some time!!")
 	export.save(database='mongoDB', export_files=(node_export_file, way_export_file), database_name='udacity', placeholder='openStreetDataMap')
-	#######################
+	######################
 
 
 if __name__ == '__main__':
