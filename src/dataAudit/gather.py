@@ -1,6 +1,6 @@
-import xml.etree.cElementTree as ET
-import os
 import inspect
+import os
+import xml.etree.cElementTree as ET
 PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 

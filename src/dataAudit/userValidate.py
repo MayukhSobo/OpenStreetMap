@@ -1,8 +1,8 @@
-import xml.etree.cElementTree as ET
-import os
 from collections import defaultdict
-from termcolor import colored
 import inspect
+import os
+from termcolor import colored
+import xml.etree.cElementTree as ET
 PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 

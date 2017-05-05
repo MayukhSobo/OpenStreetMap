@@ -1,8 +1,10 @@
-import xml.etree.cElementTree as ET
-from abc import ABC, abstractmethod
-import os
-from termcolor import colored
 import inspect
+import os
+from abc import ABC
+from abc import abstractmethod
+from termcolor import colored
+import xml.etree.cElementTree as ET
+
 PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 ROOT = os.path.join(PWD, '..', '..')
 RES = os.path.join(ROOT, 'res')

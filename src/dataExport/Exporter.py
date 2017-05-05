@@ -1,6 +1,6 @@
-import os
 import inspect
 import json
+import os
 from termcolor import colored
 PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
