@@ -4,7 +4,37 @@ import xml.etree.cElementTree as ET
 PWD = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 
-def gather_for_observation(root, child, typeof, files, mapToOrig):
+def gather_for_observation(root, child, typeof, files):
+	'''
+	This collects the data points mentioned by 'root'
+	from the XML raw data using the dataFrame section
+	into respective data formats. The data can be fetched
+	by different method. The 'child' parameter indicateds
+	that what are the sub nodes of the 'root' should be parsed.
+	Currently '*' is used to indicate all the sub nodes of the
+	root is used. Other values can be used if we want to neglect
+	any particular sub node of a node but currently not implemented.
+	The 'typeof' is used to parse the data and store it in different
+	format. The following are the specification
+		typeof = 'all' means all the tag and value pairs would be
+		returned in a list. Here same tag and value pair would be
+		put multiple times. For example,
+				[{"amenity": "school"}, ..., {"amenity": "school"}]
+		this is only good to have a complete/detailed overview of the
+		tag and values. But for a large file, this is memory inefficient.
+	For better performance, we should use 'unique' to observe the unique
+	tag and values.
+
+	Overall, this is important becuase to perform data cleaning operation,
+	the data needs to be observed first to check if there is anything wrong.
+	This function does exactly that. However this function is not used in
+	actual process from 'main.py'.
+
+	:param: root      - data needs to be parsed
+	:param: child     - sub nodes that is to be parsed
+	:param: typeof 	  - how the data to be parsed ('all', 'unique')
+	:param: files  	  - file(s) to be parsed
+	'''
 	if typeof not in ['all', 'unique']:
 		raise NotImplementedError('{} typeof is not known'.format(typeof))
 	if typeof == 'all':
@@ -22,9 +52,11 @@ def gather_for_observation(root, child, typeof, files, mapToOrig):
 					if typeof == 'all':
 						for child in elem:
 							if child.tag == 'tag':
+								# This is for node
 								collected_data_keys.append(child.get('k'))
 								collected_data_values.append(child.get('v'))
 							elif child.tag == 'nd':
+								# THis is for way
 								collected_data_keys.append('ref')
 								collected_data_values.append(child.get('ref'))
 					elif typeof == 'unique':
@@ -36,13 +68,26 @@ def gather_for_observation(root, child, typeof, files, mapToOrig):
 								collected_data_keys.add('ref')
 								collected_data_values.add(child.get('ref'))
 	if typeof == 'all':
-		# This is memory inefficient. Use 'grouped' for better memory performance
+		# This is memory inefficient.
 		return [dict([i]) for i in zip(collected_data_keys, collected_data_values)]
 	else:
 		return collected_data_keys, collected_data_values
 
 
-def gather_for_cleaning(root, child, typeof, files, mapToOrig):
+def gather_for_cleaning(root, files):
+	'''
+	This collects data for cleaning purpose
+	with and performs a similar operation
+	like 'gather_for_observation()' only
+	with the following differences
+		a. It actively uses the iterator and hence very memory efficient
+		b. It uses a constant 'typeof' called 'gropued'
+		c. It yields a node or a way in dict data from which is easy to
+			mould in JSON data from
+
+	:param: root - Data points to be parsed
+	:param: files - Files to be parsed
+	'''
 	for each in files:
 		context = iter(ET.iterparse(os.path.join(PWD, '..', '..', 'res', each),
 													events=('start', 'end')))

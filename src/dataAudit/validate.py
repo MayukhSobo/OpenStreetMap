@@ -68,6 +68,20 @@ class Validate(object):
 
 	@staticmethod
 	def gather(root, child='*', typeof='unique'):
+		'''
+		This is a wrapper function that calls the data collection
+		methods for various operations. This is the only wrapper
+		that communicates with the 'dataClean' module and pulls
+		the raw data in the following format
+				-----  Node -----
+		{changeset: 505778, id: 1331, lat: 34.24, lon: 24.23, k: [], v: []}
+				---- Way ----
+		{changeset: 505778, id: 1331, user: "Mayukh", refs: [], k: [], v: []}
+
+		:param: root: data to be gathered ( 'node' or 'way')
+		:param: child: sub elements to be gathered (currently '*' means all)
+		:param: typeof: How data to be fetched ('unique', 'grouped', 'all')
+		'''
 		if root == 'node' and not Validate.verification_status_node:
 			raise AttributeError("Verification for node was not performed/successful")
 		if root == 'way' and not Validate.verification_status_way:
