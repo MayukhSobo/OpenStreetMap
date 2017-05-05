@@ -11,6 +11,24 @@ RES = os.path.join(ROOT, 'res')
 
 
 class ParserXML(ABC):
+	'''
+	This is an abstract class used to
+	parse the XML file. This returns
+	a iterator to the XML file pointer
+	which is then used by any other derived
+	classes. This is respnsible for basic
+	validation of '<osm>' tag in the OSM
+	XML file. This is very memory efficient
+	and because of the 'cElementTree', parsing
+	is quick too. This class handles all the low
+	level data parsing and file handling operation
+	on raw xml file. This should not be changed
+	for unless one knows what and why to change.
+
+	:inherits: ABC - Abstract Base Class
+	:abstractmethod: export_dataset - Export the dataset with
+					additional parsing and logic
+	'''
 
 	def __init__(self, osmFile, events=('start', 'end')):
 		if osmFile.split('.')[-1].lower() != 'osm':
@@ -40,6 +58,16 @@ class ParserXML(ABC):
 
 
 class DataFramerXML(ParserXML):
+	'''
+	This inhetits the 'ParserXML' abstract base
+	class and implements the 'export_dataset'
+	abstractmethod. This sends the 'tags' to
+	the base class and data related to those
+	tags are only fetched. This is also responsible
+	to validate if false tags are supplied or not
+	before it moves to the base class to parse the
+	low level data.
+	'''
 
 	def __init__(self, osmFile, tags, **kwargs):
 		super(self.__class__, self).__init__(osmFile=osmFile)
