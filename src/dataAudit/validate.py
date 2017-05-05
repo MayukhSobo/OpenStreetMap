@@ -5,6 +5,25 @@ from . import gather
 
 
 class Validate(object):
+	'''
+	This verifies the data for the
+	the docmentation and level of validation
+	scoped by the documentation. This checks before
+	cleaning the data if it has any logical errors
+	which is not following the documentation page.
+	Cleaning of logically wrong data is not possible
+	because it follows perfectly data formats and
+	data patterns. Hence validation functions like
+	'validate_user', 'validate_location' & 'verify'
+	validates a particular field in data or the
+	complete data.
+
+	This also sets the following flags
+		'verification_status_node'
+		'verification_status_way'
+	for better communication with the
+	dataClean module.
+	'''
 
 	verification_status_node = False
 	verification_status_way = False
